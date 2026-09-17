@@ -51,4 +51,288 @@ Age,
 Age + 10 From Student;
 select distinct Dept from Student;
 
+#Distinct Keyword - For Getting the Quene Values 
+
+Select distinct age From Student;
+
+#Where  
+ 
+ Select * From Student
+ where Semester > 4;
+
+#any exp
+
+Select * From Student
+Where Gender != 'Male';
+
+# --And and NOT OR -- LOGICAL Operators
+
+Select * From Student
+Where Gender != 'Male'
+And Age > 19
+;
+
+Select * From Student
+Where Gender = 'Male'
+OR CGPA > 8
+;
+
+Select * From Student
+Where CGPA >=  8
+OR NOt Gender = 'Female'
+;
+
+Select * From Student
+Where (Gender = 'Male' AND CGPA > 5)
+OR DEPT = "CSE"
+;
+
+#--Like Statement--  
+Select * From Student
+Where FNAME LIKE '%R%'
+ ;
+ 
+ Select * From Student
+Where LNAME Like 'S%'
+;
+
+-- Group By-It is Going to group together rows That have the Same values in the specified colums or columns you are grouping on 
+-- When we group them together we can something known as aggreagate function on the rows 
+
+Select gender,AVG(age),Min(Cgpa),Max(Cgpa),count(Cgpa)
+ From Student
+Group BY gender;
+
+-- Order by 
+
+Select * 
+From Student
+order by AGe Asc;
+
+Select * From Student 
+order by gender , age Desc
+;
+
+ 
+-- Having vs Where = We Use the having Clause to filter out the aggregate functions 
+-- It Comes after Order by functiion 
+
+Select State ,Avg(Cgpa)
+From Student
+Where State Like '%M%'
+group by State 
+HAving AVG(CGPA) > 8
+; 
+
+
+-- Limit and Aliasing 
+-- Limit = it specifys how many rows you want in your output 
+
+#in this To a specfiy no of  things we use and the first parameter of Limit is for showing how many elements you want 
+Select * 
+From Student
+Order by CGPA Desc
+Limit 2
+; 
+
+#The second case for the use of Limit is the First paramter Where you want to start from and the seccond parameter From the first postion how many elements you want to go 
+Select * 
+From Student
+Order by CGPA Desc
+Limit 2,1
+; 
+
+-- Alising = Now is just a way to change the name of the column and it can also be used in joins 
+
+Select gender , AVG(age) as Avg_age 
+From student
+Group by gender
+Having Avg_age > 19
+;
+
+-- We are here using a differnt dataset here which mostly and approxt to the 4hr course i am watching So for joins i need mutiple so we are switch before here 
+-- Everthing works fine and at the end they are all just concepts 
+
+
+CREATE TABLE employee_demographics (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    age INT,
+    gender VARCHAR(10),
+    birth_date DATE
+);
+
+INSERT INTO employee_demographics
+(employee_id, first_name, last_name, age, gender, birth_date)
+VALUES
+(1, 'Leslie', 'Knope', 44, 'Female', '1979-09-25'),
+(3, 'Tom', 'Haverford', 36, 'Male', '1987-03-04'),
+(4, 'April', 'Ludgate', 29, 'Female', '1994-03-27'),
+(5, 'Jerry', 'Gergich', 61, 'Male', '1962-08-28'),
+(6, 'Donna', 'Meagle', 46, 'Female', '1977-07-30'),
+(7, 'Ann', 'Perkins', 35, 'Female', '1988-12-01'),
+(8, 'Chris', 'Traeger', 43, 'Male', '1980-11-11'),
+(9, 'Ben', 'Wyatt', 38, 'Male', '1985-07-26'),
+(10, 'Andy', 'Dwyer', 34, 'Male', '1989-03-25'),
+(11, 'Mark', 'Brendanawicz', 40, 'Male', '1983-06-14'),
+(12, 'Craig', 'Middlebrooks', 37, 'Male', '1986-07-27');
+
+CREATE TABLE employee_salary (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    occupation VARCHAR(100),
+    salary INT,
+    dept_id INT
+);
+INSERT INTO employee_salary
+(employee_id, first_name, last_name, occupation, salary, dept_id)
+VALUES
+(1, 'Leslie', 'Knope', 'Deputy Director of Parks and Recreation', 75000, 1),
+(2, 'Ron', 'Swanson', 'Director of Parks and Recreation', 70000, 1),
+(3, 'Tom', 'Haverford', 'Entrepreneur', 50000, 1),
+(4, 'April', 'Ludgate', 'Assistant to the Director of Parks and Recreation', 25000, 1),
+(5, 'Jerry', 'Gergich', 'Office Manager', 50000, 1),
+(6, 'Donna', 'Meagle', 'Office Manager', 60000, 1),
+(7, 'Ann', 'Perkins', 'Nurse', 55000, 4),
+(8, 'Chris', 'Traeger', 'City Manager', 90000, 3),
+(9, 'Ben', 'Wyatt', 'State Auditor', 70000, 6),
+(10, 'Andy', 'Dwyer', 'Shoe Shiner and Musician', 20000, NULL),
+(11, 'Mark', 'Brendanawicz', 'City Planner', 57000, 3),
+(12, 'Craig', 'Middlebrooks', 'Parks Director', 65000, 1);
+
+CREATE TABLE Department (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(50)
+);
+
+INSERT INTO Department (department_id, department_name)
+VALUES
+(1, 'Parks and Recreation'),
+(2, 'Animal Control'),
+(3, 'Public Works'),
+(4, 'Healthcare'),
+(5, 'Library'),
+(6, 'Finance');
+
+-- Joins Joins allow you to joins two tables or more if they have a common  column (not the column name but the data in it)
+-- There are two type of joins 
+-- 1) Inner Joints 
+-- 2) Outer Joints
+-- 3) Self Joints 
+  
+select * From employee_salary;
+ 
+ Select * From employee_demographics;
+
+Select * From Department;
+
+ 
+ -- Inner Joints : The Inner joints are going to return the rows which are same in both coloumn and table 
+ 
+ select dem.employee_id ,age, occupation  
+ From employee_salary As Sal 
+ Inner Join 
+		employee_demographics As dem
+		On dem.employee_id = sal.employee_id
+;
+
+-- Outer Joints- in outer joints there are two types A left joint and a right joint 
+-- Left joint = It will all the all the element of the left table even if there are no matches and the take of the elements of the right table which have matches 
+-- Right joint = it is similar to the Left joint Just the opposite 
+
+
+-- Left Outer 
+select * 
+ From employee_salary As Sal 
+ Left Outer Join 
+		employee_demographics As dem
+		On dem.employee_id = sal.employee_id
+;
+-- Right Outer 
+
+select * 
+ From employee_salary As Sal 
+ Right Outer Join 
+		employee_demographics As dem
+		On dem.employee_id = sal.employee_id
+;
+
+
+-- Self Join - A Self join is a type of join where you tie a table to itself 
+
+Select *
+From employee_salary as emp1
+Join employee_salary as emp2 
+on emp1.employee_id = emp2.employee_id
+;
+
+-- Joining mutiple Table togetTablesher 
+
+
+ select *  
+ From employee_salary As Sal 
+ Inner Join 
+		employee_demographics As dem
+		On dem.employee_id = sal.employee_id
+        INNER JOIN 
+			Department as dp 
+            on Sal.dept_id = dp.department_id
+;
+ 
+ Select * From Department;
+ 
+ -- Unions - A Unions allow you to combine rows together like row of data from sepearte Table or from the same table 
+ -- A Union is by defaut Distant - means it only takes unique values 
+ -- To Remove the distinct unique feature and get the all the values including duplicate 
+ -- Use (UNION ALL) 
+
+ -- This is one shows how it is used and how it works
+ Select Age, gender 
+ From employee_demographics
+ Union 
+ Select first_name, last_name 
+ From employee_salary
+ ;
+ 
+ -- this is how it should be used 
+ Select first_name, last_name
+ From employee_demographics
+ Union 
+ Select first_name, last_name 
+ From employee_salary
+ ;
+ 
+ 
+ -- To Remove the distinct unique feature and get the all the values including duplicate 
+ -- Use (UNION ALL) 
+ 
+ Select first_name, last_name
+ From employee_demographics
+ Union ALL  
+ Select first_name, last_name 
+ From employee_salary
+ ;
+ 
+ -- Use Case 
+ -- Need to find The old employee and Highly paid employee 
+ 
+Select first_name ,last_name ,'Old Men' as Label
+From employee_demographics
+Where age > 40 AND gender = 'Male'
+UNION
+Select first_name ,last_name ,'Old Female'
+From employee_demographics
+Where age > 40 AND gender = 'Female'
+UNION 
+Select first_name ,last_name ,'Highly Paided'  
+From employee_salary
+Where salary > 70000
+Order by first_name,last_name
+;  
+ 
+-- String Function
+-- String Function are build in function in Sql which help us use string and work with strings differntly 
+
 
