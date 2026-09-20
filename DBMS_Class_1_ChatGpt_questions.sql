@@ -78,3 +78,5 @@ Select *
 From Student 
 Where LNAME LIKE '_____'
 ;
+
+Show tables;

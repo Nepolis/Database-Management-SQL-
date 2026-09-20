@@ -335,4 +335,132 @@ Order by first_name,last_name
 -- String Function
 -- String Function are build in function in Sql which help us use string and work with strings differntly 
 
+-- 1) Length - Give the length of the string .
+Select Length("Water_bottle");
+
+Select first_name , Length(first_name)
+From employee_demographics
+order by 2
+;
+
+-- 2) Upper - Converts the string in upper case 
+
+Select first_name , Upper(first_name)
+From employee_demographics
+order by 2
+;
+
+-- 3) Lower - Converts the string in lower case
+
+Select first_name , Lower(first_name)
+From employee_demographics
+order by 2
+;
+
+-- 4) Trim - Trim is a string function used to remove unwanted characters, typically whitespace, from the beginning and end of a text string.
+
+
+Select TRIM("         Sky        ")
+;
+
+Select LTRIM("         Sky        ")
+;
+
+Select RTRIM("         Sky        ")
+;
+
+
+-- Substring -
+
+
+Select first_name ,
+Left(first_name,4),
+Right(first_name,4)
+From employee_demographics
+order by 2
+;
+
+Select first_name ,
+Left(first_name,4),
+Right(first_name,4),
+Substring(first_name,3,2),
+birth_date,
+Substring(birth_date,6,2) as birth_month # We can it substring to get the specific data we need for data cleaning for requirment
+#Here in substring First parameter is For the columns name , Second for how many character to skip and third after skipping how many characters to take 
+From employee_demographics
+order by 2
+;
+-- Replace -- Replace will replace specific character with a differnt character that you want 
+-- In Replace the three parameter are first for the column name , second for the which to replace and third for wht to replace it with
+Select first_name, Replace(first_name,'a','z')
+From employee_demographics
+;
+
+#Locate
+
+Select Locate('e',"Alexander");
+
+Select first_name, Locate('An',first_name)
+From employee_demographics
+;
+
+-- CONCAT - Concatenation of mutiple columns -- Simply Combining two tables 
+Select first_name, last_name,  
+Concat(first_name,' ',last_name) as Full_Name
+From employee_demographics
+;
+Select employee_id,first_name,last_name,
+Concat(employee_id,')',' ',first_name,' ',last_name) As Employees
+From employee_demographics
+;
+
+
+-- CASE STATEMENT
+
+Select first_name,
+last_name,
+age,
+CASE  
+	When age < 30 THEN 'Young'
+    When age between 31 and 50 Then 'Old'
+    When age >= 50 Then 'On Death Door'
+END as Youth
+From employee_demographics
+Order by age ASC	
+;
+
+-- Question 
+-- Pay increse and bonus 
+-- if made < 50000 = 5%
+-- < 70000 = 7%
+-- if Finanace = 10%
+
+-- Leave this i am just clearing my mind doubt 
+Select * 
+From employee_salary as sale
+Inner Join  
+employee_demographics as demo 
+on	sale.employee_id = demo.employee_id
+INNER join department as dp 
+on sale.dept_id = dp.department_id
+;
+
+-- Pay increse and bonus 
+-- if made < 50000 = 5%
+-- < 70000 = 7%
+-- if Finanace = 10%
+
+Select first_name,last_name,salary,dept_id,
+CASE
+	When salary <= 50000 Then salary + (salary * 0.05)
+    When salary > 50000 Then salary + (salary * 0.07)
+END as Bonus_salary,
+CASE
+	When dept_id = 6 then salary * .10
+END as Bonus
+From employee_salary
+;
+
+
+-- Subqueries - Subquiers are queries inside another quiery
 
